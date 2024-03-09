@@ -2,7 +2,12 @@
 
 <head>
     <title>PWA</title>
-    <script type="module" src="pwa.js"></script>
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; child-src 'none'; object-src 'none'; script-src 'self' 'unsafe-eval' https://mlavergn.github.io https://unpkg.com/petite-vue; img-src 'self' https://mlavergn.github.io; connect-src https://api.github.com; style-src 'self' 'unsafe-inline'; worker-src 'self'">
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="icon.png" type="image/png" />
+    <script type="module" src="app.js"></script>
     <style>
         body {
             background-color: black;
@@ -14,6 +19,7 @@
         }
 
         a,
+        caption,
         label {
             font-family: "futura";
             font-size: 39;
@@ -26,6 +32,7 @@
 <body>
     <div id="model">
         <table>
+            <caption>v{{app.version}}</caption>
             <tr v-for="item in Object.entries(app.data)">
                 <td>
                     <label>{{item[0]}}:</label>

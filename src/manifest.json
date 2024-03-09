@@ -1,0 +1,34 @@
+{
+    "id": "/",
+    "name": "PWA App Demo",
+    "short_name": "PWA Demo",
+    "display": "standalone",
+    "display_override": [
+        "window-controls-overlay"
+    ],
+    "start_url": "/",
+    "theme_color": "black",
+    "background_color": "black",
+    "icons": [
+        {
+            "src": "icon.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "screenshot.png",
+            "sizes": "640x320",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "PWA Demo"
+        },
+        {
+            "src": "screenshot.png",
+            "sizes": "640x320",
+            "type": "image/png",
+            "label": "PWA Demo"
+        }
+    ]
+}

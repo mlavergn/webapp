@@ -1,27 +1,83 @@
-import { createApp, reactive } from "https://unpkg.com/petite-vue?module";
+/// PWA encapsulates the methods defining a PWA
+/// The JS file can be passed to a service worker
+/// which will bootstrap a PWA environment.
+export class PWA {
+    static cacheStorageKey = 'pwa-demo';
 
-class PWA {
-    supportsPWA() {
-        return 'onbeforeinstallprompt' in window;
-        // return typeof window.onbeforeinstallprompt == 'object';
+    static cacheList = [
+        '/',
+        'pwa.html',
+        'app.js',
+        'pwa.js',
+        'runtime.js',
+        'icon.png',
+        'screenshot.png'
+    ];
+
+    registerInstallHandler() {
+        self.addEventListener('install', (e) => {
+            console.log('Cache event!')
+            e.waitUntil(
+                caches.open(this.cacheStorageKey)
+                    .then((cache) => {
+                        console.log('Adding to Cache:', this.cacheList)
+                        return cache.addAll(this.cacheList)
+                    })
+                    .then(() => {
+                        console.log('Skip waiting!')
+                        return self.skipWaiting()
+                    })
+            )
+        });
     }
 
-    runtimePWA() {
-        if ('matchMedia' in window) {
-            return window.matchMedia('(display-mode: standalone)').matches;
-        }
-        return false;
+    registerActivateHandler() {
+        self.addEventListener('activate', (e) => {
+            console.log('Activate event')
+            e.waitUntil(
+                caches.keys()
+                    .then(cacheNames => {
+                        return cacheNames.map(name => {
+                            if (name !== this.cacheStorageKey) {
+                                return caches.delete(name);
+                            }
+                        })
+                    })
+                    .then(() => {
+                        console.log('Clients claims.');
+                        return self.clients.claim();
+                    })
+            )
+        });
+    }
+
+    registerFetchHandler() {
+        self.addEventListener('fetch', (e) => {
+            console.log('Fetch event:', e.request.url)
+            e.respondWith(
+                caches.match(e.request)
+                    .then((response) => {
+                        if (response != undefined) {
+                            console.log('Using cache for:', e.request.url);
+                            return response;
+                        }
+                        console.log('Fallback to fetch:', e.request.url);
+                        return fetch(e.request.url);
+                    })
+            );
+        });
+    }
+
+    bootstrapServiceWorker() {
+        self.console.log('Bootstrap PWA handlers');
+        this.registerInstallHandler();
+        this.registerActivateHandler();
+        this.registerFetchHandler();
     }
 }
 
-const pwa = new PWA();
-
-const app = reactive({
-    data: {
-        supportsPWA: pwa.supportsPWA(),
-        runtimePWA: pwa.runtimePWA()
-    }
-});
-
-createApp({ app }).mount("#model");
-
+// Limit bootstrap to service workers only
+if ('window' in self == false) {
+    const pwa = new PWA();
+    pwa.bootstrapServiceWorker();
+}
