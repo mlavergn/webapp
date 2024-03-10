@@ -18,10 +18,10 @@ export class PWA {
         self.addEventListener('install', (e) => {
             console.log('Cache event!')
             e.waitUntil(
-                caches.open(this.cacheStorageKey)
+                caches.open(PWA.cacheStorageKey)
                     .then((cache) => {
-                        console.log('Adding to Cache:', this.cacheList)
-                        return cache.addAll(this.cacheList)
+                        console.log('Adding to Cache:', PWA.cacheList)
+                        return cache.addAll(PWA.cacheList)
                     })
                     .then(() => {
                         console.log('Skip waiting!')
