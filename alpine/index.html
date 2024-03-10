@@ -1,0 +1,27 @@
+<html>
+
+<head>
+    <script type="module" src="app.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+
+<body>
+    <h1 x-data="{ message: 'Alpine Demo' }" x-text="message"></h1>
+    <div x-data="{ count: 0 }">
+        <button x-on:click="count = count > 0 ? count-1 : count">-</button>
+        <span x-text="count"></span>
+        <button x-on:click="count++">+</button>
+    </div>
+    <div x-data="{ message: 'Hello'}">
+        <input type="text" x-model="message">
+        <button x-on:click="message = 'changed'">Change Message</button>
+        <span x-text="message"></span>
+    </div>
+    <div x-data="{ message: 'World' }" x-html="app.demo.getMessage()">
+    </div>
+    <form @submit.prevent="">
+        <input type="text" x-text="message" x-bind='app.demo.getMessage()'>
+    </form>
+</body>
+
+</html>
