@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <title>PWA</title>
+    <meta charset="UTF-8">
+    <script type="module" src="app.js"></script>
+    <style>
+        body {
+            background-color: black;
+        }
+
+        table {
+            padding: 40pt;
+            line-height: 60pt;
+        }
+
+        a,
+        caption,
+        label {
+            font-family: "futura";
+            font-size: 39;
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="model">
+        <table>
+            <caption>v{{app.version}}</caption>
+            <tr v-for="item in Object.entries(app.data)">
+                <td>
+                    <label>{{item[0]}}:</label>
+                    &nbsp;
+                    <label>{{item[1]}}</label>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>
