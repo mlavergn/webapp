@@ -1,4 +1,4 @@
-import { createApp, reactive } from "https://unpkg.com/petite-vue?module";
+import { createApp, reactive } from 'https://unpkg.com/petite-vue/dist/petite-vue.es.js'
 
 const app = reactive({
     version: '1.0',

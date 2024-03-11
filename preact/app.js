@@ -1,6 +1,4 @@
-// import { h, Component, render } from 'https://esm.sh/preact';
-import { html, render, Component } from 'https://esm.sh/htm/preact/standalone'
-
+import { html, render, Component } from 'https://unpkg.com/htm/preact/standalone.module.js'
 
 // Table
 export class UserTable extends Component {

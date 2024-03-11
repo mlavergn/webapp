@@ -1,11 +1,18 @@
-export class App {
+import Alpine from 'https://unpkg.com/alpinejs/dist/module.esm.js'
+
+Alpine.data('app', () => ({
+    data: {
+        message: "Hello"
+    },
     getMessage() {
         return (Math.random() > .5) ? "<h1>Good morning </h1>" : "<h1>Good evening</h1>";
-    }
-}
+    },
+    init() {
+        console.log("init");
+    },
+    destroy() {
+        console.log("init");
+    },
+}));
 
-// Add the App module to the window context
-window.app = {
-    message: "",
-    demo: new App()
-};
+Alpine.start();
