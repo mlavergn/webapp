@@ -1,25 +1,23 @@
-import { createApp, reactive } from "https://unpkg.com/petite-vue?module";
-import { Runtime } from "./runtime.js";
-import { PWA } from "./pwa.js";
+import Alpine from './modules/alpine.min.js'
+import { Runtime } from "./modules/runtime.js";
+import { PWA } from "./modules/pwa.js";
 
-const app = reactive({
+Alpine.data('app', () => ({
     version: '1.0',
     data: {},
     runtime: new Runtime(),
-    async bootstrap() {
+    init() {
         this.runtime.methodNames(Runtime).reduce((partial, fn) => {
             this.data[fn] = this.runtime[fn]();
         }, []);
+
+        // Register the PWA service worker
+        const runtime = new Runtime();
+        runtime.registerServiceWorker("pwa.js");
     },
-    async reset() {
+    reset() {
         caches.delete(PWA.cacheStorageKey)
     }
-});
+}));
 
-createApp({ app }).mount("#model");
-
-// Bootstrap the vue data
-app.bootstrap();
-
-// Register the PWA service worker
-app.runtime.registerServiceWorker("pwa.js");
+Alpine.start();

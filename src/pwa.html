@@ -6,7 +6,7 @@
     <title>PWA</title>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; child-src 'none'; object-src 'none'; script-src 'self' 'unsafe-eval' https://mlavergn.github.io https://unpkg.com/petite-vue; img-src 'self' https://mlavergn.github.io; connect-src https://api.github.com; style-src 'self' 'unsafe-inline'; worker-src 'self'">
+        content="default-src 'self'; child-src 'none'; object-src 'none'; script-src 'self' 'unsafe-eval' https://mlavergn.github.io; img-src 'self' https://mlavergn.github.io; connect-src https://api.github.com; style-src 'self' 'unsafe-inline'; worker-src 'self'">
     <meta name="viewport" content="width=device-width, user-scalable=yes" />
     <meta name="theme-color" content="black" />
     <link rel="manifest" href="manifest.json" />
@@ -35,16 +35,18 @@
 </head>
 
 <body>
-    <div id="model">
+    <div x-data="app">
         <table>
-            <caption>v{{app.version}}</caption>
-            <tr v-for="item in Object.entries(app.data)">
-                <td>
-                    <label>{{item[0]}}:</label>
-                    &nbsp;
-                    <label>{{item[1]}}</label>
-                </td>
-            </tr>
+            <caption x-text="version"></caption>
+            <template x-for="(key, value) in data">
+                <tr>
+                    <td>
+                        <label x-text="key"></label>
+                        &nbsp;
+                        <label x-text="value"></label>
+                    </td>
+                </tr>
+            </template>
         </table>
     </div>
 </body>
